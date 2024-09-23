@@ -15,7 +15,7 @@ plt.rcParams["axes.unicode_minus"] = False
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 # 使用正确的文件路径
-file_path = r"D:\ERA5 hourly data on pressure levels from 1940 to present.nc"
+file_path = r"ERA5 hourly data on pressure levels from 1940 to present.nc"
 
 # 检查文件路径是否存在
 if not os.path.exists(file_path):
