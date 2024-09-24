@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import xarray as xr
 
 
-dataset = xr.open_dataset("xiaochidu.nc")
+dataset = xr.open_dataset("single levels.nc")
 
-# print(dataset)
+print(dataset)
 # print(dataset.data_vars)
