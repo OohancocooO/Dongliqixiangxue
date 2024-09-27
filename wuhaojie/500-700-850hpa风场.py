@@ -49,13 +49,17 @@ def save_wind_frames(lon_grid, lat_grid, u, v, time_points, output_dir, level):
         ax.set_extent([110, 115, 32, 37], crs=ccrs.PlateCarree())  # 设置经纬度范围
         wind_contour = ax.contourf(lon_grid, lat_grid, wind_speed, cmap='viridis', alpha=0.6, transform=ccrs.PlateCarree())
         plt.colorbar(wind_contour, ax=ax, orientation='horizontal', pad=0.05, label='风速 (m/s)')
-        ax.quiver(lon_grid, lat_grid, u_frame, v_frame, transform=ccrs.PlateCarree(), scale=100, width=0.002)  # 调整箭头大小
+        ax.quiver(lon_grid, lat_grid, u_frame, v_frame, transform=ccrs.PlateCarree(), scale=150)  # 调整箭头大小
         ax.set_title(f'{level} hPa 风场 {current_time.strftime("%Y-%m-%d %H:%M")}')
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle=':', )
+        gl = ax.gridlines(draw_labels=False)
+        gl.top_labels = False
+        gl.right_labels = False
+        gl.xlabel_style = {"size": 10}
+        gl.ylabel_style = {"size": 10}
         ax.set_xlabel('经度')
         ax.set_ylabel('纬度')
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle=':')
-        ax.gridlines(draw_labels=True)
 
         # 添加河南省和郑州市边界
         cnmaps.draw_maps(henan, ax=ax, linewidth=1.0, color='black')
@@ -80,10 +84,10 @@ def create_animation_from_images(output_dir, output_file):
     plt.close(fig)
 
 def main():
-    file_path = r"D:\Git desktop\dongliqixiang\ERA5 hourly data on pressure levels from 1940 to present.nc"
-    wind_500_output_dir = r"D:\新建文件夹\500hpa_wind"
-    wind_700_output_dir = r"D:\新建文件夹\700hpa_wind"
-    wind_850_output_dir = r"D:\新建文件夹\850hpa_wind"
+    file_path = r"ERA5 hourly data on pressure levels from 1940 to present.nc"
+    wind_500_output_dir = "500hpa_wind1"
+    wind_700_output_dir = "700hpa_wind1"
+    wind_850_output_dir = "850hpa_wind1"
     wind_500_output_file = os.path.join(wind_500_output_dir, '500hpa_wind_animation.gif')
     wind_700_output_file = os.path.join(wind_700_output_dir, '700hpa_wind_animation.gif')
     wind_850_output_file = os.path.join(wind_850_output_dir, '850hpa_wind_animation.gif')
