@@ -7,6 +7,7 @@ import metpy.calc as mpcalc
 from metpy.units import units
 from scipy.signal import convolve2d
 import geopandas as gpd
+from cnmaps import get_adm_maps, draw_map
 
 # 设置matplotlib支持中文显示
 plt.rcParams["font.sans-serif"] = ["SimHei"]  # 'SimHei' 是一种支持中文的字体
@@ -20,6 +21,14 @@ g = 9.80665
 dataset = xr.open_dataset(r"D:\Download\presure level.nc")
 dataset1 = xr.open_dataset(r"D:\Download\q.nc")
 
+
+# 定义时间范围，提取7月19日的数据
+start_date = "2021-07-19T08:00:00"
+end_date = "2021-07-20T04:00:00"
+
+# 筛选出7月19日的数据
+dataset = dataset.sel(valid_time=slice(start_date, end_date))
+dataset1 = dataset1.sel(valid_time=slice(start_date, end_date))
 
 # 对数据进行时间平均
 dataset_mean = dataset.mean(dim="valid_time")
@@ -61,8 +70,14 @@ div_smoothed = convolve2d(div, kernel, mode="same", boundary="fill", fillvalue=0
 # 绘制等值线图
 plt.figure(figsize=(10, 8))
 ax = plt.axes(projection=ccrs.PlateCarree())
-ax.set_extent([lon.min(), lon.max(), lat.min(), lat.max()], crs=ccrs.PlateCarree())
+ax.set_extent([80, 160, 9, 51], crs=ccrs.PlateCarree())
 ax.add_feature(cfeature.COASTLINE)
+
+# 添加经纬度网格
+gl = ax.gridlines(
+    draw_labels=True, linewidth=0, color="white", alpha=0.5, linestyle="--"
+)
+gl.top_labels = False
 
 contour = ax.contourf(
     lon, lat, div_smoothed, cmap="coolwarm", transform=ccrs.PlateCarree()
@@ -73,6 +88,13 @@ plt.colorbar(
     pad=0.05,
     label="水汽通量散度 (kg m$^{-2}$ s$^{-1}$)",
 )
+
+# 6. 使用 cartopy 和 cnmaps 绘制行政区划和栅格数据
+# 获取河南省和郑州市的行政边界
+henan = get_adm_maps(province="河南省", only_polygon=True, record="first")
+zhengzhou = get_adm_maps(city="郑州市", only_polygon=True, record="first")
+
+draw_map(henan, ax=ax, color="purple", linewidth=1.5)
 
 plt.title("柱状积分水汽通量散度")
 
