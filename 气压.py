@@ -1,12 +1,9 @@
 import matplotlib.pyplot as plt
-import xarray as xr
-import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import numpy as np
+import xarray as xr
 from cnmaps import get_adm_maps, draw_map
-
-plt.rcParams["font.sans-serif"] = ["SimHei"]
-plt.rcParams["axes.unicode_minus"] = False
 
 # 加载数据
 ds = xr.open_dataset("xiaochidu.nc")
@@ -28,15 +25,20 @@ time_index = np.argmin(np.abs(ds.time.values - selected_time))
 fig, ax = plt.subplots(subplot_kw={"projection": ccrs.PlateCarree()})
 ax.set_extent([110, 117, 31, 37], crs=ccrs.PlateCarree())
 
-# 绘制降水图，无平滑处理
-precip = ax.pcolormesh(
-    ds.longitude,
-    ds.latitude,
-    ds.tp[time_index, :, :].values*1000,
-    cmap="Blues",
-    shading="auto",
+# 绘制表面气压的等气压线，每100 hPa绘制一条等压线
+pressure = ds.sp[time_index, :, :].values / 100  # 将单位转为 hPa
+lon, lat = np.meshgrid(ds.longitude, ds.latitude)
+
+# 绘制等压线，每 100 hPa 显示一条
+cs = ax.contour(
+    lon,
+    lat,
+    pressure,
+    levels=np.arange(np.min(pressure), np.max(pressure), 50),
+    colors="black",
+    transform=ccrs.PlateCarree(),
 )
-plt.colorbar(precip, ax=ax, orientation="vertical", label="Total Precipitation (mm)")
+ax.clabel(cs, inline=1, fontsize=10, fmt="%1.0f hPa")
 
 # 添加河南省和郑州市的行政边界
 draw_map(henan, ax=ax, lw=1, color="black")
@@ -48,9 +50,8 @@ ax.add_feature(cfeature.BORDERS, linestyle=":")
 
 # 标题
 ax.set_title(
-    f"于{np.datetime_as_string(ds.time.values[time_index], unit='D')}降水图"
+    f"Surface Pressure - {np.datetime_as_string(ds.time.values[time_index], unit='h')}"
 )
 
 # 显示图像
 plt.show()
-

@@ -85,7 +85,7 @@ q = ax.quiver(
     color="black",  # 使用单一颜色表示方向
 )
 
-ax.quiverkey(q, 0.95, 1.025, 20, "1000", labelpos="E", color="b", labelcolor="b")
+ax.quiverkey(q, 0.95, 1.025, 10, "10", labelpos="E", color="b", labelcolor="b")
 
 # 6. 使用 cartopy 和 cnmaps 绘制行政区划和栅格数据
 # 获取河南省和郑州市的行政边界
