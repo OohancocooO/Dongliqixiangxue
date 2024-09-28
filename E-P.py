@@ -12,7 +12,7 @@ time_selected = np.datetime64("2021-07-18T01:00:00")
 ds_selected = ds.sel(valid_time=time_selected)
 
 # 计算 e - tp
-diff = ds_selected["e"]
+diff = -ds_selected["e"] * ds_selected["e"] - ds_selected["tp"]
 
 # 创建图形和投影
 fig, ax = plt.subplots(figsize=(10, 8), subplot_kw={"projection": ccrs.PlateCarree()})
