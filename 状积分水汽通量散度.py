@@ -93,8 +93,10 @@ plt.colorbar(
 # 获取河南省和郑州市的行政边界
 henan = get_adm_maps(province="河南省", only_polygon=True, record="first")
 zhengzhou = get_adm_maps(city="郑州市", only_polygon=True, record="first")
+shandong = get_adm_maps(province="山东省", only_polygon=True, record="first")
 
 draw_map(henan, ax=ax, color="purple", linewidth=1.5)
+draw_map(shandong, ax=ax, color="r", linewidth=1.5)
 
 plt.title("柱状积分水汽通量散度")
 

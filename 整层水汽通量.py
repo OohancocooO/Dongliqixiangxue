@@ -95,6 +95,6 @@ zhengzhou = get_adm_maps(city="郑州市", only_polygon=True, record="first")
 draw_map(henan, ax=ax, color="r", linewidth=1.5)
 
 # 设置标题
-ax.set_title("XXXXXXXXX整层水汽通量")
+ax.set_title("整层水汽通量")
 
 plt.show()
