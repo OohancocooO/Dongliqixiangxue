@@ -14,7 +14,7 @@ plt.rcParams["axes.unicode_minus"] = False
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 # 使用正确的文件路径
-file_path = r"D:\pycharm\dongliqixiangxue\xiaochidu.nc"
+file_path = r"xiaochidu.nc"
 
 # 检查文件路径是否存在
 if not os.path.exists(file_path):
@@ -54,7 +54,7 @@ grid_lon, grid_lat = np.meshgrid(np.linspace(110, 115, 100), np.linspace(32, 37,
 interpolated_data = griddata(points, values, (grid_lon, grid_lat), method='cubic')
 
 # 创建保存图片的文件夹
-output_dir = r"D:\新建文件夹\降水"
+output_dir = r"降水"
 os.makedirs(output_dir, exist_ok=True)
 
 # 绘制累计降水量图
