@@ -20,9 +20,9 @@ plt.rcParams["font.sans-serif"] = ["SimHei"]
 plt.rcParams["axes.unicode_minus"] = False
 
 # 设置时间范围
-start_time = datetime(2021, 7, 17)
+start_time = datetime(2021, 7, 19, 22)
 end_time = datetime(2021, 7, 20, 23)
-pressure_level = 1000
+pressure_level = 950
 
 # 经纬度范围
 lat_min, lat_max = 32, 37
@@ -149,8 +149,7 @@ while current_time <= end_time:
 
     # 设置标题和显示范围
     ax.set_title(
-        f"在{pressure_level}hPa气压下的风向图与地形图 时间：{time_selected}",
-        fontsize=16,
+        f"在{pressure_level}hPa气压下的风向图与地形图",
     )
     ax.set_xlim([lon_min, lon_max])
     ax.set_ylim([lat_min, lat_max])
